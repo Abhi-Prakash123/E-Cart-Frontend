@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductItem from "./ProductItem";
-import Grid from '@mui/material/Grid';
+import { Grid, CircularProgress, Box } from '@mui/material';
 import { config } from "../config"
 import axios from "axios";
 const getProducts = async (options) => {
@@ -18,7 +18,7 @@ const Products = (props) => {
         const abortController = new AbortController()
         const collectAllProducts = async () => {
             const prod = await getProducts({ signal: abortController.signal })
-            setProducts((prevProducts) => prod)
+            setProducts(() => prod)
         }
         collectAllProducts()
         return () => {
@@ -31,6 +31,15 @@ const Products = (props) => {
             <ProductItem refreshCart={props.refreshCart} details={item} />
         </Grid>
     ))
+    if (productList.length === 0) return (
+        <Box sx={{
+            width: "100%", display: "flex", justifyContent: "center",
+            alignItems: "center",
+            height: "100%"
+        }}>
+            <CircularProgress />
+        </Box>
+    )
     return (
         <React.Fragment>
             <Grid container alignItems="stretch" justifyContent="center" rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
