@@ -1,13 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { ThemeProvider } from '@mui/material/styles';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { BrowserRouter as Router } from 'react-router-dom'
+import theme from './theme';
+import { SnackbarProvider } from 'notistack';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <Router>
+        <SnackbarProvider maxSnack={3} anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}>
+          <App />
+        </SnackbarProvider>
+      </Router>
+    </ThemeProvider>
+
+
   </React.StrictMode>
 );
 
